@@ -115,4 +115,46 @@ class BiRightBouncyLineView(ctx : Context) : View(ctx) {
             }
         }
     }
+
+    data class BRBLNode(var i : Int, val state : State = State()) {
+
+        private var next : BRBLNode? = null
+        private var prev : BRBLNode? = null
+
+        init {
+            addNeighbor()
+        }
+
+        fun addNeighbor() {
+            if (i < nodes - 1) {
+                next = BRBLNode(i + 1)
+                next?.prev = this
+            }
+        }
+
+        fun draw(canvas : Canvas, paint : Paint) {
+            canvas.drawBRBLNode(i, state.scale, paint)
+            next?.draw(canvas, paint)
+        }
+
+        fun update(cb : (Float) -> Unit) {
+            state.update(cb)
+        }
+
+        fun startUpdating(cb : () -> Unit) {
+            state.startUpdating(cb)
+        }
+
+        fun getNext(dir : Int, cb : () -> Unit) : BRBLNode {
+            var curr : BRBLNode? = prev
+            if (dir == 1) {
+                curr = next
+            }
+            if (curr != null) {
+                return curr
+            }
+            cb()
+            return this
+        }
+    }
 }
