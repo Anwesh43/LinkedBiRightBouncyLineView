@@ -54,15 +54,16 @@ fun Canvas.drawBRBLNode(i : Int, scale : Float, paint : Paint) {
 class BiRightBouncyLineView(ctx : Context) : View(ctx) {
 
     private val paint : Paint = Paint(Paint.ANTI_ALIAS_FLAG)
+    private val renderer : Renderer = Renderer(this)
 
     override fun onDraw(canvas : Canvas) {
-
+        renderer.render(canvas, paint)
     }
 
     override fun onTouchEvent(event : MotionEvent) : Boolean {
         when (event.action) {
             MotionEvent.ACTION_DOWN -> {
-
+                renderer.handleTap()
             }
         }
         return true
@@ -199,6 +200,15 @@ class BiRightBouncyLineView(ctx : Context) : View(ctx) {
             brbl.startUpdating {
                 animator.start()
             }
+        }
+    }
+
+    companion object {
+
+        fun create(activity : Activity) : BiRightBouncyLineView {
+            val view : BiRightBouncyLineView = BiRightBouncyLineView(activity)
+            activity.setContentView(view)
+            return view
         }
     }
 }
