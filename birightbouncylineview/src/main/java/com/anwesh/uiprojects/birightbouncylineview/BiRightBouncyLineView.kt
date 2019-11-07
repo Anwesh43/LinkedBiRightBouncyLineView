@@ -179,4 +179,26 @@ class BiRightBouncyLineView(ctx : Context) : View(ctx) {
             curr.startUpdating(cb)
         }
     }
+
+    data class Renderer(var view : BiRightBouncyLineView) {
+
+        private val animator : Animator = Animator(view)
+        private val brbl : BiRightBouncyLine = BiRightBouncyLine(0)
+
+        fun render(canvas : Canvas, paint : Paint) {
+            canvas.drawColor(backColor)
+            brbl.draw(canvas, paint)
+            animator.animate {
+                brbl.update {
+                    animator.stop()
+                }
+            }
+        }
+
+        fun handleTap() {
+            brbl.startUpdating {
+                animator.start()
+            }
+        }
+    }
 }
