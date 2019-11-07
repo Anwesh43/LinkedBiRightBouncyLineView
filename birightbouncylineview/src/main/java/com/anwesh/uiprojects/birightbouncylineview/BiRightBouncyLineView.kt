@@ -29,7 +29,7 @@ fun Float.sinify() : Float = Math.sin(this * Math.PI).toFloat()
 
 fun Canvas.drawBiRightBouncyLine(size : Float, scale : Float, paint : Paint) {
     for (j in 0..1) {
-        val sf : Float = scale.divideScale(0, 2).sinify()
+        val sf : Float = scale.divideScale(j, 2).sinify()
         save()
         rotate(90f * j)
         drawLine(0f, 0f, 0f, -sf * size, paint)
